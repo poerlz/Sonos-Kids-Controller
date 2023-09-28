@@ -116,7 +116,14 @@ export class PlayerService {
 
   private sendRequest(url: string) {
     this.getConfig().subscribe(config => {
-      const baseUrl = 'http://' + config.server + ':' + config.port + '/' + config.rooms[0] + '/';
+      // const baseUrl = 'http://' + config.server + ':' + config.port + '/' + config.rooms[0] + '/';
+
+      let protocol = "http";
+      if(config.https == null || config.https === true) {
+          protocol = "https";
+      }
+
+      const baseUrl = protocol + '://' + config.server + ':' + config.port + '/' + config.rooms[0] + '/';
       this.http.get(baseUrl + url).subscribe();
     });
   }
